@@ -1,8 +1,6 @@
-import { Inter } from "next/font/google";
-import { Roboto } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 
-export const inter = Inter({ subsets: ["latin"] });
-export const roboto = Roboto({
+export const open_sans = Open_Sans({
   subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
+  weight: ["300", "400", "500", "700", "600", "800"],
 });

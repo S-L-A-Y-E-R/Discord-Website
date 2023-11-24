@@ -1,6 +1,7 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { roboto } from "@/components/ui/fonts";
-import "@/styles/global.css";
+import { open_sans } from "@/components/ui/fonts";
+import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Discord Clone",
@@ -13,8 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${roboto.className} antialiased`}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${open_sans.className} antialiased`}>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }

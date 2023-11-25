@@ -3,9 +3,8 @@
 import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 import {
   Dialog,
@@ -27,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "../file-upload";
 import { IProfile } from "@/types/data-types";
+import { useModal } from "@/hooks/use-modal-store";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -38,14 +38,11 @@ const formSchema = z.object({
   profileId: z.string().min(1).optional(),
 });
 
-export const InitialModal = ({ profile }: { profile: IProfile }) => {
-  const [isMounted, setIsMounted] = useState(false);
-
+export const CreateServerModal = ({ profile }: { profile: IProfile }) => {
+  const { isOpen, onClose, type } = useModal();
   const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isModalOpen = isOpen && type === "createServer";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -57,6 +54,11 @@ export const InitialModal = ({ profile }: { profile: IProfile }) => {
 
   const isLoading = form.formState.isSubmitting;
 
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       values.profileId = profile._id;
@@ -64,18 +66,14 @@ export const InitialModal = ({ profile }: { profile: IProfile }) => {
 
       form.reset();
       router.refresh();
-      window.location.reload();
+      onClose();
     } catch (error) {
       console.log(error);
     }
   };
 
-  if (!isMounted) {
-    return null;
-  }
-
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">

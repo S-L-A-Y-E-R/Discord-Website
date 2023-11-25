@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 import { CreateServerModal } from "@/components/modals/create-server-modal";
 import { IProfile } from "@/types/data-types";
+import { InviteModal } from "@/components/modals/invite-modal";
 
 export default function ModalProvider({ profile }: { profile: IProfile }) {
   const [isMounted, setIsMounted] = useState(false);
@@ -19,6 +20,7 @@ export default function ModalProvider({ profile }: { profile: IProfile }) {
   return (
     <>
       <CreateServerModal profile={profile} />
+      <InviteModal profile={profile} />
     </>
   );
 }

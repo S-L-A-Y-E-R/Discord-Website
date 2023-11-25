@@ -14,6 +14,8 @@ export interface IServer {
   imageUrl: string;
   inviteCode: string;
   profileId: string[];
+  members: IMember[];
+  channels: IChannel[];
   createdAt: Date;
   updatedAt: Date;
 }

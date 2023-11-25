@@ -8,17 +8,22 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { cn } from "@/lib/utils";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { ourFileRouter } from "./api/uploadthing/core";
+import ModalProvider from "@/providers/modal-provider.";
+import { currentProfile } from "@/lib/current-profile";
+import { IProfile } from "@/types/data-types";
 
 export const metadata: Metadata = {
   title: "Discord Clone",
   description: "This is a Discord clone made with Next.js and Tailwind CSS.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const profile: IProfile = await currentProfile();
+
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -36,6 +41,7 @@ export default function RootLayout({
             storageKey="discord-theme"
           >
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+            <ModalProvider profile={profile} />
             {children}
           </ThemeProvider>
         </body>

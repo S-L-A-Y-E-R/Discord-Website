@@ -3,9 +3,9 @@
 import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 import {
   Dialog,
@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "../file-upload";
 import { IProfile } from "@/types/data-types";
+import { useModal } from "@/hooks/use-modal-store";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -35,48 +36,54 @@ const formSchema = z.object({
   imageUrl: z.string().min(1, {
     message: "Server image is required.",
   }),
-  profileId: z.string().min(1).optional(),
 });
 
-export const InitialModal = ({ profile }: { profile: IProfile }) => {
-  const [isMounted, setIsMounted] = useState(false);
-
+export const EditServerModal = ({ profile }: { profile: IProfile }) => {
+  const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isModalOpen = isOpen && type === "editServer";
+  const { server } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       imageUrl: "",
-      profileId: profile?._id,
     },
   });
 
+  useEffect(() => {
+    if (server) {
+      form.setValue("name", server.name);
+      form.setValue("imageUrl", server.imageUrl);
+    }
+  }, [form, server]);
+
   const isLoading = form.formState.isSubmitting;
+
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      values.profileId = profile._id;
-      await axios.post(`${process.env.API_URL}api/v1/servers`, values);
+      await axios.patch(
+        `${process.env.API_URL}api/v1/servers/${server?._id}`,
+        values
+      );
 
       form.reset();
       router.refresh();
-      window.location.reload();
+      onClose();
     } catch (error) {
       console.log(error);
     }
   };
 
-  if (!isMounted) {
-    return null;
-  }
-
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -131,7 +138,7 @@ export const InitialModal = ({ profile }: { profile: IProfile }) => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>

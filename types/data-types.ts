@@ -33,7 +33,7 @@ export interface IChannel {
 export interface IMember {
   _id: string;
   serverId: string[];
-  profileId: string[];
+  profileId: IProfile[];
   role: string;
   createdAt: Date;
   updatedAt: Date;

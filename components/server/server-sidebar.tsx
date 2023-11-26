@@ -33,16 +33,14 @@ export default async function ServerSidbar({ serverId }: ServerSidbarProps) {
     (channel) => channel.type === "video"
   );
 
-  const members = server.members.filter(
-    (member) => !member.profileId.includes(profile._id)
-  );
+  const members = server.members.filter((member) => !member.profileId[0]._id);
 
   if (!server) {
     return redirect("/");
   }
 
-  const role = server.members.find((member) =>
-    member.profileId.includes(profile._id)
+  const role = server.members.find(
+    (member) => member.profileId[0]._id === profile._id
   )?.role;
 
   return (

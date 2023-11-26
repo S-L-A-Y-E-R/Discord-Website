@@ -12,6 +12,7 @@ export const currentProfile = async () => {
     const { data: profiles } = await axios.get(
       `${process.env.API_URL}api/v1/profiles?userId=${userId}`
     );
+
     return profiles.data[0];
   } catch (e) {
     console.log(e);

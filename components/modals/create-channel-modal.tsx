@@ -63,8 +63,8 @@ export const CreateChannelModal = ({ profile }: { profile: IProfile }) => {
     defaultValues: {
       name: "",
       type: "text",
-      profileId: profile._id,
-      serverId: params.serverId,
+      profileId: profile?._id,
+      serverId: params?.serverId,
     },
   });
 

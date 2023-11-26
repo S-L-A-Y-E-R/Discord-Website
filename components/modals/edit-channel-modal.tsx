@@ -3,7 +3,7 @@
 import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import {
@@ -48,37 +48,31 @@ const formSchema = z.object({
     .refine((type) => type === "text" || type === "voice" || "video", {
       message: "Invalid channel type",
     }),
-  profileId: z.string().optional(),
-  serverId: z.string().optional(),
 });
 
 const channelTypes = { text: "text", voice: "voice", video: "video" };
 
-export const CreateChannelModal = ({ profile }: { profile: IProfile }) => {
+export const EditChannelModal = ({ profile }: { profile: IProfile }) => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
-  const params: any = useParams();
-  const { channelType } = data;
+  const { channel, server } = data;
 
-  const isModalOpen = isOpen && type === "createChannel";
+  const isModalOpen = isOpen && type === "editChannel";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: "text",
-      profileId: profile?._id,
-      serverId: params?.serverId,
+      type: channel?.type || "",
     },
   });
 
   useEffect(() => {
-    if (channelType) {
-      form.setValue("type", channelType);
-    } else {
-      form.setValue("type", "text");
+    if (channel) {
+      form.setValue("name", channel?.name);
+      form.setValue("type", channel?.type);
     }
-  }, [channelType, form]);
+  }, [channel, form]);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -89,9 +83,10 @@ export const CreateChannelModal = ({ profile }: { profile: IProfile }) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      values.profileId = profile._id;
-      values.serverId = params.serverId;
-      await axios.post(`${process.env.API_URL}api/v1/channels`, values);
+      await axios.patch(
+        `${process.env.API_URL}api/v1/channels/${channel?._id}`,
+        values
+      );
 
       form.reset();
       router.refresh();
@@ -106,7 +101,7 @@ export const CreateChannelModal = ({ profile }: { profile: IProfile }) => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Create Channel
+            Edit Channel
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -170,7 +165,7 @@ export const CreateChannelModal = ({ profile }: { profile: IProfile }) => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Create
+                Edit
               </Button>
             </DialogFooter>
           </form>

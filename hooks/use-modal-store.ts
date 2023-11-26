@@ -1,5 +1,6 @@
-import { IServer } from "@/types/data-types";
 import { create } from "zustand";
+
+import { IChannel, IServer } from "@/types/data-types";
 
 export type ModalType =
   | "createServer"
@@ -8,10 +9,14 @@ export type ModalType =
   | "members"
   | "createChannel"
   | "leaveServer"
-  | "deleteServer";
+  | "deleteServer"
+  | "deleteChannel"
+  | "editChannel";
 
 interface ModalData {
   server?: IServer;
+  channel?: IChannel;
+  channelType?: "text" | "voice" | "video";
 }
 
 interface ModalStore {

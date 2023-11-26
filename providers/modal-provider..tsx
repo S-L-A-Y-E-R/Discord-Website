@@ -7,6 +7,7 @@ import { IProfile } from "@/types/data-types";
 import { InviteModal } from "@/components/modals/invite-modal";
 import { EditServerModal } from "@/components/modals/edit-server-modal";
 import { MembersModal } from "@/components/modals/members-modal";
+import { CreateChannelModal } from "@/components/modals/create-channel-modal";
 
 export default function ModalProvider({ profile }: { profile: IProfile }) {
   const [isMounted, setIsMounted] = useState(false);
@@ -25,6 +26,7 @@ export default function ModalProvider({ profile }: { profile: IProfile }) {
       <InviteModal profile={profile} />
       <EditServerModal profile={profile} />
       <MembersModal profile={profile} />
+      <CreateChannelModal profile={profile} />
     </>
   );
 }

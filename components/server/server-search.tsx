@@ -38,7 +38,7 @@ export default function ServerSearch({ data }: serverHeaderProps) {
         setOpen(!open);
       }
     };
-    document.addEventListener("keydown", down);
+    document.onkeydown = down;
     return () => document.removeEventListener("keydown", down);
   }, [open]);
 

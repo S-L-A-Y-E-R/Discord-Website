@@ -24,7 +24,7 @@ export default async function NavSidebar() {
   const servers = data.data;
 
   return (
-    <div className="space-y-4 flex flex-col items-center h-full w-full text-primary py-3 dark:bg-[#1E1F22]">
+    <div className="space-y-4 flex flex-col items-center h-full w-full text-primary py-3 dark:bg-[#1E1F22] bg-[#E3E5E8]">
       <NavAction />
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
       <ScrollArea className="flex-1 w-full">

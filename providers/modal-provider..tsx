@@ -10,6 +10,8 @@ import { MembersModal } from "@/components/modals/members-modal";
 import { CreateChannelModal } from "@/components/modals/create-channel-modal";
 import { LeaveServerModal } from "@/components/modals/leave-server-modal";
 import { DeleteServerModal } from "@/components/modals/delete-server-modal";
+import { DeleteChannelModal } from "@/components/modals/delete-channel-modal";
+import { EditChannelModal } from "@/components/modals/edit-channel-modal";
 
 export default function ModalProvider({ profile }: { profile: IProfile }) {
   const [isMounted, setIsMounted] = useState(false);
@@ -31,6 +33,8 @@ export default function ModalProvider({ profile }: { profile: IProfile }) {
       <CreateChannelModal profile={profile} />
       <LeaveServerModal profile={profile} />
       <DeleteServerModal profile={profile} />
+      <DeleteChannelModal profile={profile} />
+      <EditChannelModal profile={profile} />
     </>
   );
 }

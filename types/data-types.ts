@@ -38,3 +38,11 @@ export interface IMember {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IConversation {
+  _id: string;
+  memberOneId: IMember;
+  memberTwoId: IMember;
+  createdAt: Date;
+  updatedAt: Date;
+}

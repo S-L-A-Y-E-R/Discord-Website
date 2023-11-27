@@ -3,7 +3,7 @@
 import { ShieldAlert, ShieldCheck, icons } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
-import { IMember, IProfile, IServer } from "@/types/data-types";
+import { IMember, IServer } from "@/types/data-types";
 import { cn } from "@/lib/utils";
 import UserAvatar from "../user-avatar";
 import { useEffect, useState } from "react";
@@ -30,12 +30,17 @@ export default function ServerMember({ member, server }: ServerMemberProps) {
 
   const icon = roleIconMap[member.role];
 
+  const onClick = () => {
+    router.push(`/servers/${params?.serverId}/conversations/${member._id}`);
+  };
+
   if (!isMounted) {
     return null;
   }
 
   return (
     <button
+      onClick={onClick}
       className={cn(
         "group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1",
         params?.memberId === member._id && "bg-zinc-700/20 dark:bg-zinc-700"
@@ -48,7 +53,7 @@ export default function ServerMember({ member, server }: ServerMemberProps) {
       <p
         className={cn(
           "font-semibold text-sm text-zinc-500 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 dark:text-zinc-400 transition",
-          params?.channelId === member._id &&
+          params?.memberId === member._id &&
             "text-primary dark:text-zinc-200 dark:group-hover:text-white"
         )}
       >

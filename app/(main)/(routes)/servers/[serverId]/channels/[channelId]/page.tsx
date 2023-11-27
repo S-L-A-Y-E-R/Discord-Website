@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { currentProfile } from "@/lib/current-profile";
 import { IProfile, IMember, IChannel } from "@/types/data-types";
 import ChatHeader from "@/components/chat/chat-header";
+import ChatInput from "@/components/chat/chat-input";
 
 interface ChannelIdPageProps {
   params: {
@@ -29,7 +30,7 @@ export default async function ChannelIdPage({ params }: ChannelIdPageProps) {
     `${process.env.API_URL}api/v1/members?serverId=${params.serverId}`
   );
   const member: IMember = members.data.find(
-    (member: IMember) => member.profileId[0]._id === profile._id
+    (member: IMember) => member?.profileId[0]?._id === profile._id
   );
 
   if (!member || !channel) {
@@ -42,6 +43,14 @@ export default async function ChannelIdPage({ params }: ChannelIdPageProps) {
         name={channel.name}
         type="channel"
         serverId={params.serverId}
+      />
+      <div className="flex-1"></div>
+      <ChatInput
+        name={channel.name}
+        type="channel"
+        apiUrl={`${process.env.API_URL}api/v1/messages`}
+        member={member}
+        channel={channel}
       />
     </div>
   );

@@ -11,6 +11,7 @@ import { ourFileRouter } from "./api/uploadthing/core";
 import ModalProvider from "@/providers/modal-provider.";
 import { currentProfile } from "@/lib/current-profile";
 import { IProfile } from "@/types/data-types";
+import { SocketProvider } from "@/providers/socket-provider";
 
 export const metadata: Metadata = {
   title: "Discord Clone",
@@ -41,8 +42,10 @@ export default async function RootLayout({
             storageKey="discord-theme"
           >
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-            <ModalProvider profile={profile} />
-            {children}
+            <SocketProvider>
+              <ModalProvider profile={profile} />
+              {children}
+            </SocketProvider>
           </ThemeProvider>
         </body>
       </html>

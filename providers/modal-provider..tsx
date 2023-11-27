@@ -12,6 +12,7 @@ import { LeaveServerModal } from "@/components/modals/leave-server-modal";
 import { DeleteServerModal } from "@/components/modals/delete-server-modal";
 import { DeleteChannelModal } from "@/components/modals/delete-channel-modal";
 import { EditChannelModal } from "@/components/modals/edit-channel-modal";
+import { FileUploadModal } from "@/components/modals/file-upload-modal";
 
 export default function ModalProvider({ profile }: { profile: IProfile }) {
   const [isMounted, setIsMounted] = useState(false);
@@ -35,6 +36,7 @@ export default function ModalProvider({ profile }: { profile: IProfile }) {
       <DeleteServerModal profile={profile} />
       <DeleteChannelModal profile={profile} />
       <EditChannelModal profile={profile} />
+      <FileUploadModal profile={profile} />
     </>
   );
 }

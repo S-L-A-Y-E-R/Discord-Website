@@ -12,6 +12,7 @@ import ModalProvider from "@/providers/modal-provider.";
 import { currentProfile } from "@/lib/current-profile";
 import { IProfile } from "@/types/data-types";
 import { SocketProvider } from "@/providers/socket-provider";
+import QueryProvider from "@/providers/query-provider";
 
 export const metadata: Metadata = {
   title: "Discord Clone",
@@ -44,7 +45,7 @@ export default async function RootLayout({
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
             <SocketProvider>
               <ModalProvider profile={profile} />
-              {children}
+              <QueryProvider>{children}</QueryProvider>
             </SocketProvider>
           </ThemeProvider>
         </body>

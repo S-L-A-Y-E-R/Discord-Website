@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
-import { IChannel, IMember } from "@/types/data-types";
+import { IChannel, IConversation, IMember } from "@/types/data-types";
 import { useModal } from "@/hooks/use-modal-store";
 import EmojiPicker from "../emoji-picker";
 
@@ -18,14 +18,16 @@ interface ChatInputProps {
   apiUrl: string;
   name: string;
   type: "channel" | "conversation";
-  member: IMember;
-  channel: IChannel;
+  member?: IMember;
+  channel?: IChannel;
+  conversation?: IConversation;
 }
 
 const schema = z.object({
   content: z.string().trim().min(1),
   memberId: z.string().optional(),
   channelId: z.string().optional(),
+  conversationId: z.string().optional(),
 });
 
 export default function ChatInput({
@@ -34,9 +36,9 @@ export default function ChatInput({
   type,
   member,
   channel,
+  conversation,
 }: ChatInputProps) {
   const { onOpen } = useModal();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -51,12 +53,12 @@ export default function ChatInput({
 
   const onSubmit = async (values: z.infer<typeof schema>) => {
     try {
-      values.memberId = member._id;
-      values.channelId = channel._id;
+      values.memberId = member?._id;
+      values.channelId = channel?._id;
+      values.conversationId = conversation?._id;
       const url = qs.stringifyUrl({ url: apiUrl });
       await axios.post(url, values);
       form.reset();
-      router.refresh();
     } catch (e) {
       console.log(e);
     }

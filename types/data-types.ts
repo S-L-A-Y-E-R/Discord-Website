@@ -1,3 +1,4 @@
+import { create } from "zustand";
 export interface IProfile {
   _id: string;
   userId: string;
@@ -43,6 +44,17 @@ export interface IConversation {
   _id: string;
   memberOneId: IMember;
   memberTwoId: IMember;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IMessage {
+  _id: string;
+  content: string;
+  fileUrl: string;
+  deleted: boolean;
+  memberId: IMember;
+  channelId: string;
   createdAt: Date;
   updatedAt: Date;
 }

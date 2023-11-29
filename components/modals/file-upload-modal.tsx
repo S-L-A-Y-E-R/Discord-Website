@@ -24,8 +24,8 @@ const formSchema = z.object({
   fileUrl: z.string().min(1, {
     message: "Attachment is required.",
   }),
-  memberId: z.string().min(1).optional(),
-  channelId: z.string().min(1).optional(),
+  memberId: z.string().optional(),
+  channelId: z.string().optional(),
 });
 
 export const FileUploadModal = ({ profile }: { profile: IProfile }) => {

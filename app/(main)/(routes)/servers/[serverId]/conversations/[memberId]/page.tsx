@@ -6,6 +6,8 @@ import { currentProfile } from "@/lib/current-profile";
 import { IConversation, IMember, IProfile } from "@/types/data-types";
 import { getOrCreateConversation } from "@/lib/conversation";
 import ChatHeader from "@/components/chat/chat-header";
+import ChatMessages from "@/components/chat/chat-messages";
+import ChatInput from "@/components/chat/chat-input";
 
 interface MembeIdPageProps {
   params: {
@@ -56,6 +58,26 @@ export default async function MemberIdPage({ params }: MembeIdPageProps) {
         name={otherMember.profileId[0].name}
         serverId={params.serverId}
         type="conversation"
+      />
+      <ChatMessages
+        member={member}
+        name={otherMember.profileId[0].name}
+        chatId={conversation._id}
+        type={"conversation"}
+        apiUrl={`${process.env.API_URL}api/v1/direct-messages`}
+        paramKey="conversationId"
+        paramValue={conversation._id}
+        socketUrl={`${process.env.API_URL}api/v1/messages/socket-direct`}
+        socketQuery={{
+          conversationId: conversation._id,
+        }}
+      />
+      <ChatInput
+        name={otherMember.profileId[0].name}
+        type="conversation"
+        apiUrl={`${process.env.API_URL}api/v1/messages/socket-direct`}
+        member={member}
+        conversation={conversation}
       />
     </div>
   );

@@ -6,6 +6,7 @@ import { currentProfile } from "@/lib/current-profile";
 import { IProfile, IMember, IChannel } from "@/types/data-types";
 import ChatHeader from "@/components/chat/chat-header";
 import ChatInput from "@/components/chat/chat-input";
+import ChatMessages from "@/components/chat/chat-messages";
 
 interface ChannelIdPageProps {
   params: {
@@ -44,11 +45,24 @@ export default async function ChannelIdPage({ params }: ChannelIdPageProps) {
         type="channel"
         serverId={params.serverId}
       />
-      <div className="flex-1"></div>
+      <ChatMessages
+        member={member}
+        name={channel.name}
+        chatId={channel._id}
+        type="channel"
+        apiUrl={`${process.env.API_URL}api/v1/messages`}
+        socketUrl={`${process.env.API_URL}api/v1/messages/socket`}
+        socketQuery={{
+          channelId: channel._id,
+          serverId: channel.serverId[0],
+        }}
+        paramKey="channelId"
+        paramValue={channel._id}
+      />
       <ChatInput
         name={channel.name}
         type="channel"
-        apiUrl={`${process.env.API_URL}api/v1/messages`}
+        apiUrl={`${process.env.API_URL}api/v1/messages/socket`}
         member={member}
         channel={channel}
       />

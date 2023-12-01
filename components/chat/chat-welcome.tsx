@@ -1,4 +1,3 @@
-import { channel } from "diagnostics_channel";
 import { Hash } from "lucide-react";
 
 interface ChatWelcomeProps {

@@ -18,7 +18,11 @@ export const initialProfile = async () => {
     } else {
       const userData = {
         userId: user.id,
-        name: `${user.firstName} ${user.lastName ? user.lastName : ""}`,
+        name: `${
+          user.firstName
+            ? `${user.firstName} ${user.lastName ? user.lastName : ""}`
+            : "User"
+        }`,
         email: user.emailAddresses[0].emailAddress,
         imageUrl: user.imageUrl,
       };

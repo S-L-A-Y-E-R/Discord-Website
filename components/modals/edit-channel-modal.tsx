@@ -55,7 +55,7 @@ const channelTypes = { text: "text", voice: "voice", video: "video" };
 export const EditChannelModal = ({ profile }: { profile: IProfile }) => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
-  const { channel, server } = data;
+  const { channel } = data;
 
   const isModalOpen = isOpen && type === "editChannel";
 

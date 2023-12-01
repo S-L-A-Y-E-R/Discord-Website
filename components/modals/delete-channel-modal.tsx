@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -14,7 +15,6 @@ import {
 import { IProfile } from "@/types/data-types";
 import { useModal } from "@/hooks/use-modal-store";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
 
 export const DeleteChannelModal = ({ profile }: { profile: IProfile }) => {
   const { isOpen, onClose, type, data } = useModal();
@@ -22,7 +22,7 @@ export const DeleteChannelModal = ({ profile }: { profile: IProfile }) => {
   const router = useRouter();
 
   const isModalOpen = isOpen && type === "deleteChannel";
-  const { server, channel } = data;
+  const { channel } = data;
 
   const onDeleteServer = async () => {
     try {

@@ -59,7 +59,7 @@ export default async function ServerSidbar({ serverId }: ServerSidbarProps) {
   }
 
   const role = server.members.find(
-    (member) => member.profileId[0]._id === profile._id
+    (member) => member.profileId._id === profile._id
   )?.role;
 
   return (
@@ -101,8 +101,8 @@ export default async function ServerSidbar({ serverId }: ServerSidbarProps) {
                 type: "member",
                 data: members?.map((member: IMember) => ({
                   icon: roleIconMap[member.role],
-                  name: member.profileId[0].name,
-                  id: member.profileId[0]._id,
+                  name: member.profileId.name,
+                  id: member.profileId._id,
                 })),
               },
             ]}

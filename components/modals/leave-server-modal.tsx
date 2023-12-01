@@ -24,7 +24,7 @@ export const LeaveServerModal = ({ profile }: { profile: IProfile }) => {
   const isModalOpen = isOpen && type === "leaveServer";
   const { server } = data;
   const memberId = server?.members.find(
-    (member: IMember) => member.profileId[0]._id === profile?._id
+    (member: IMember) => member.profileId._id === profile?._id
   )?._id;
 
   const onLeaveServer = async () => {

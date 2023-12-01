@@ -30,7 +30,7 @@ export default async function ServerIdLayout({
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full" suppressHydrationWarning>
       <div className="hidden md:flex h-full w-60 z-20 flex-col fixed inset-y-0">
         <ServerSidebar serverId={params.serverId} />
       </div>

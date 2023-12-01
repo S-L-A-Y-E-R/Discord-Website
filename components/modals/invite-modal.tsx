@@ -2,6 +2,7 @@
 
 import { Check, Copy, RefreshCw } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
 
 import {
   Dialog,
@@ -15,7 +16,6 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import UseOrigin from "@/hooks/use-origin";
-import axios from "axios";
 
 export const InviteModal = ({ profile }: { profile: IProfile }) => {
   const { isOpen, onClose, type, data, onOpen } = useModal();

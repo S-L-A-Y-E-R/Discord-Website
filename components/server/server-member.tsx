@@ -2,11 +2,11 @@
 
 import { ShieldAlert, ShieldCheck, icons } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { IMember, IServer } from "@/types/data-types";
 import { cn } from "@/lib/utils";
 import UserAvatar from "../user-avatar";
-import { useEffect, useState } from "react";
 
 interface ServerMemberProps {
   member: IMember;
@@ -47,7 +47,7 @@ export default function ServerMember({ member, server }: ServerMemberProps) {
       )}
     >
       <UserAvatar
-        src={member.profileId[0].imageUrl}
+        src={member.profileId.imageUrl}
         className="h-8 w-8 md:h-8 md:w-8"
       />
       <p
@@ -57,7 +57,7 @@ export default function ServerMember({ member, server }: ServerMemberProps) {
             "text-primary dark:text-zinc-200 dark:group-hover:text-white"
         )}
       >
-        {member.profileId[0].name}
+        {member.profileId.name}
       </p>
       {icon}
     </button>

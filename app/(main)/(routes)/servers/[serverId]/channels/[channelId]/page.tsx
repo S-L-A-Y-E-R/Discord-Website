@@ -7,6 +7,7 @@ import { IProfile, IMember, IChannel } from "@/types/data-types";
 import ChatHeader from "@/components/chat/chat-header";
 import ChatInput from "@/components/chat/chat-input";
 import ChatMessages from "@/components/chat/chat-messages";
+import MediaRoom from "@/components/media-room";
 
 interface ChannelIdPageProps {
   params: {
@@ -31,7 +32,7 @@ export default async function ChannelIdPage({ params }: ChannelIdPageProps) {
     `${process.env.API_URL}api/v1/members?serverId=${params.serverId}`
   );
   const member: IMember = members.data.find(
-    (member: IMember) => member?.profileId[0]?._id === profile._id
+    (member: IMember) => member?.profileId._id === profile._id
   );
 
   if (!member || !channel) {
@@ -45,24 +46,32 @@ export default async function ChannelIdPage({ params }: ChannelIdPageProps) {
         type="channel"
         serverId={params.serverId}
       />
-      <ChatMessages
-        member={member}
-        name={channel.name}
-        chatId={channel._id}
-        type="channel"
-        apiUrl={`${process.env.API_URL}api/v1/messages`}
-        socketUrl={`${process.env.API_URL}api/v1/messages/socket`}
-        socketQuery={{
-          channelId: channel._id,
-          serverId: channel.serverId[0],
-        }}
-        paramKey="channelId"
-        paramValue={channel._id}
-      />
+      {channel.type === "text" && (
+        <ChatMessages
+          member={member}
+          name={channel.name}
+          chatId={channel._id}
+          type="channel"
+          apiUrl={`${process.env.API_URL}api/v1/messages`}
+          socketUrl={`${process.env.API_URL}api/v1/messages`}
+          socketQuery={{
+            channelId: channel._id,
+            serverId: channel.serverId[0],
+          }}
+          paramKey="channelId"
+          paramValue={channel._id}
+        />
+      )}
+      {channel.type === "voice" && (
+        <MediaRoom chatId={channel?._id} video={false} audio={true} />
+      )}
+      {channel.type === "video" && (
+        <MediaRoom chatId={channel?._id} video={true} audio={false} />
+      )}
       <ChatInput
         name={channel.name}
         type="channel"
-        apiUrl={`${process.env.API_URL}api/v1/messages/socket`}
+        apiUrl={`${process.env.API_URL}api/v1/messages`}
         member={member}
         channel={channel}
       />

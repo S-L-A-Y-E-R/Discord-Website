@@ -14,7 +14,7 @@ A Discord clone project aimed at providing a similar chat and communication expe
 
 -The app is using the following supporting packages to enhance the user experience:
 
-* Real-time chat functionality
+* Real-time chat and video functionality
 * User authentication and authorization
 * Channel creation and management
 * File sharing capabilities

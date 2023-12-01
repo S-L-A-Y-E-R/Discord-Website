@@ -1,4 +1,5 @@
 import axios from "axios";
+import { redirect } from "next/navigation";
 
 const findConversation = async (memberOneId: string, memberTwoId: string) => {
   try {
@@ -27,6 +28,8 @@ export const getOrCreateConversation = async (
   memberOneId: string,
   memberTwoId: string
 ) => {
+  if (memberOneId === memberTwoId) return redirect("/");
+
   let conversation =
     (await findConversation(memberOneId, memberTwoId)) ||
     (await findConversation(memberTwoId, memberOneId));

@@ -87,7 +87,11 @@ export default function ChatInput({
                   <button
                     type="button"
                     onClick={() =>
-                      onOpen("messageFile", { apiUrl, memberId: member?._id })
+                      onOpen("messageFile", {
+                        apiUrl,
+                        memberId: member?._id,
+                        conversation,
+                      })
                     }
                     className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 rounded-full
                      dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 transition

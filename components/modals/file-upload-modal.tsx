@@ -26,6 +26,7 @@ const formSchema = z.object({
   }),
   memberId: z.string().optional(),
   channelId: z.string().optional(),
+  conversationId: z.string().optional(),
 });
 
 export const FileUploadModal = ({ profile }: { profile: IProfile }) => {
@@ -42,6 +43,7 @@ export const FileUploadModal = ({ profile }: { profile: IProfile }) => {
       fileUrl: "",
       memberId: memberId || "",
       channelId: (params?.channelId as string) || "",
+      conversationId: data.conversation?._id || "",
     },
   });
 
@@ -56,6 +58,7 @@ export const FileUploadModal = ({ profile }: { profile: IProfile }) => {
     try {
       values.memberId = memberId;
       values.channelId = params.channelId as string;
+      values.conversationId = data.conversation?._id;
       await axios.post(apiUrl as string, {
         ...values,
         content: values.fileUrl,

@@ -44,8 +44,10 @@ export default async function InviteCodePage({ params }: InviteCodePageProps) {
     }
   );
 
+  console.log();
+
   await axios.patch(`${process.env.API_URL}api/v1/servers/${serverId}`, {
-    profileId: [...existingServer.profileId, member.data.data.profileId[0]],
+    profileId: [...existingServer.profileId, member.data.data.profileId],
   });
 
   if (member.data.data) {

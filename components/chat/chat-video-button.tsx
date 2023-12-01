@@ -3,13 +3,19 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Video, VideoOff } from "lucide-react";
 import qs from "query-string";
+import { useEffect, useState } from "react";
 
 import ActionTooltip from "../action-tooltip";
 
 export default function ChatVideoButton() {
+  const [isMounted, setIsMounted] = useState(false);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const isVideo = searchParams?.get("video");
 
@@ -29,6 +35,10 @@ export default function ChatVideoButton() {
 
     router.push(url);
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <ActionTooltip label={toolTipLabel} side={"bottom"}>

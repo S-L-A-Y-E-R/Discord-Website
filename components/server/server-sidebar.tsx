@@ -182,9 +182,6 @@ export default async function ServerSidbar({ serverId }: ServerSidbarProps) {
             />
             <div className="space-y-[2px]">
               {members.map((member: IMember) => {
-                if (member.role === "admin") {
-                  return null;
-                }
                 return (
                   <ServerMember
                     key={member._id}

@@ -1,8 +1,8 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import type { Metadata } from "next";
-import { open_sans } from "@/components/ui/fonts";
 import { extractRouterConfig } from "uploadthing/server";
 
+import type { Metadata } from "next";
+import { open_sans } from "@/components/ui/fonts";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { cn } from "@/lib/utils";

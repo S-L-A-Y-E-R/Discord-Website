@@ -12,6 +12,8 @@ import {
   ShieldCheck,
   ShieldQuestion,
 } from "lucide-react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import {
@@ -36,9 +38,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSubTrigger,
 } from "../ui/dropdown-menu";
-import axios from "axios";
-import { url } from "inspector";
-import { useRouter } from "next/navigation";
 
 const roleIconMap: { [key: string]: JSX.Element | null } = {
   guest: null,
@@ -65,7 +64,7 @@ export const MembersModal = ({ profile }: { profile: IProfile }) => {
         `${process.env.API_URL}api/v1/servers/${server!._id}`,
         {
           profileId: server?.profileId.filter(
-            (id) => id !== member.profileId[0]._id
+            (id) => id !== member?.profileId._id
           ),
         }
       );
@@ -113,17 +112,17 @@ export const MembersModal = ({ profile }: { profile: IProfile }) => {
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
           {server?.members?.map((member: IMember) => (
             <div key={member._id} className="flex items-center gap-x-2 mb-6">
-              <UserAvatar src={member.profileId[0].imageUrl} />
+              <UserAvatar src={member?.profileId.imageUrl} />
               <div className="flex flex-col gap-y-1">
                 <div className="text-xs font-semibold flex items-center gap-x-1">
-                  {member.profileId[0].name}
+                  {member?.profileId.name}
                   {roleIconMap[member.role]}
                 </div>
                 <p className="text-xs text-zinc-500">
-                  {member.profileId[0].email}
+                  {member?.profileId.email}
                 </p>
               </div>
-              {server.profileId[0] !== member.profileId[0]._id &&
+              {server.profileId[0] !== member?.profileId._id &&
                 loadingId !== member._id && (
                   <div className="ml-auto">
                     <DropdownMenu>

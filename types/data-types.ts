@@ -1,4 +1,3 @@
-import { create } from "zustand";
 export interface IProfile {
   _id: string;
   userId: string;
@@ -23,18 +22,18 @@ export interface IServer {
 
 export interface IChannel {
   _id: string;
-  serverId: string[];
+  serverId: string;
   name: string;
   type: string;
-  profileId: string[];
+  profileId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface IMember {
   _id: string;
-  serverId: string[];
-  profileId: IProfile[];
+  serverId: string;
+  profileId: IProfile;
   role: string;
   createdAt: Date;
   updatedAt: Date;
@@ -55,6 +54,17 @@ export interface IMessage {
   deleted: boolean;
   memberId: IMember;
   channelId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IDirectMessage {
+  _id: string;
+  content: string;
+  fileUrl: string;
+  deleted: boolean;
+  memberId: IMember;
+  conversationId: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,7 +1,7 @@
-import { initialProfile } from "@/lib/initial-profile";
 import axios from "axios";
 import { redirect } from "next/navigation";
 
+import { initialProfile } from "@/lib/initial-profile";
 import { IProfile, IServer } from "@/types/data-types";
 import { InitialModal } from "@/components/modals/initial-modal";
 

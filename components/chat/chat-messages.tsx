@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2, ServerCrash } from "lucide-react";
-import { Fragment, useRef, ElementRef } from "react";
+import { Fragment, useRef, ElementRef, useState, useEffect } from "react";
 
 import { IMember, IMessage } from "@/types/data-types";
 import ChatWelcome from "./chat-welcome";
@@ -32,12 +32,17 @@ export default function ChatMessages({
   paramValue,
   type,
 }: ChatMessagesProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update`;
 
   const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
@@ -58,6 +63,10 @@ export default function ChatMessages({
     shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
     count: data?.pages?.[0].data?.data.length ?? 0,
   });
+
+  if (!isMounted) {
+    return null;
+  }
 
   if (status === "pending") {
     return (
@@ -104,9 +113,9 @@ export default function ChatMessages({
       <div className="flex flex-col-reverse mt-auto">
         {data?.pages.map((group, i) => (
           <Fragment key={i}>
-            {group.data.data.map((message: IMessage, i: number) => (
+            {group.data.data.map((message: IMessage) => (
               <ChatItem
-                key={i}
+                key={message._id}
                 currentMember={member}
                 id={message._id}
                 content={message.content}

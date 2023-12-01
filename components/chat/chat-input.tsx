@@ -6,7 +6,7 @@ import * as z from "zod";
 import axios from "axios";
 import qs from "query-string";
 import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
@@ -38,6 +38,7 @@ export default function ChatInput({
   channel,
   conversation,
 }: ChatInputProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const { onOpen } = useModal();
 
   const form = useForm<z.infer<typeof schema>>({
@@ -46,8 +47,13 @@ export default function ChatInput({
       content: "",
       memberId: member?._id,
       channelId: channel?._id,
+      conversationId: conversation?._id,
     },
   });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -63,6 +69,10 @@ export default function ChatInput({
       console.log(e);
     }
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <Form {...form}>

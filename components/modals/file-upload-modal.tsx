@@ -56,7 +56,7 @@ export const FileUploadModal = ({ profile }: { profile: IProfile }) => {
     try {
       values.memberId = memberId;
       values.channelId = params.channelId as string;
-      await axios.post(apiUrl!, {
+      await axios.post(apiUrl as string, {
         ...values,
         content: values.fileUrl,
       });

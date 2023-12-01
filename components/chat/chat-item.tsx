@@ -81,7 +81,7 @@ export default function ChatItem({
     if (member._id === currentMember._id) {
       return;
     } else {
-      router.push(`/servers/${params?.serverId}/conversation/${member._id}`);
+      router.push(`/servers/${params?.serverId}/conversations/${member._id}`);
     }
   };
 
@@ -118,7 +118,7 @@ export default function ChatItem({
           className=" cursor-pointer hover:drop-shadow-md transition"
           onClick={onMemberClick}
         >
-          <UserAvatar src={member?.profileId[0]?.imageUrl} />
+          <UserAvatar src={member?.profileId?.imageUrl} />
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
@@ -127,7 +127,7 @@ export default function ChatItem({
                 className="font-semibold text-sm hover:underline cursor-pointer"
                 onClick={onMemberClick}
               >
-                {member.profileId[0].name}
+                {member?.profileId?.name}
               </p>
               <ActionTooltip label={member?.role}>
                 {roleIconMap[member?.role]}

@@ -8,15 +8,22 @@ import { getOrCreateConversation } from "@/lib/conversation";
 import ChatHeader from "@/components/chat/chat-header";
 import ChatMessages from "@/components/chat/chat-messages";
 import ChatInput from "@/components/chat/chat-input";
+import MediaRoom from "@/components/media-room";
 
 interface MembeIdPageProps {
   params: {
     memberId: string;
     serverId: string;
   };
+  searchParams: {
+    video?: boolean;
+  };
 }
 
-export default async function MemberIdPage({ params }: MembeIdPageProps) {
+export default async function MemberIdPage({
+  params,
+  searchParams,
+}: MembeIdPageProps) {
   const profile: IProfile = await currentProfile();
 
   if (!profile) {
@@ -27,7 +34,7 @@ export default async function MemberIdPage({ params }: MembeIdPageProps) {
     `${process.env.API_URL}api/v1/members?serverId=${params.serverId}`
   );
   const member: IMember = members.data.find(
-    (member: IMember) => member.profileId[0]._id === profile._id
+    (member: IMember) => member.profileId._id === profile._id
   );
 
   if (!member) {
@@ -49,36 +56,43 @@ export default async function MemberIdPage({ params }: MembeIdPageProps) {
   }: { memberOneId: IMember; memberTwoId: IMember } = conversation;
 
   const otherMember =
-    memberOneId.profileId[0]._id === profile._id ? memberTwoId : memberOneId;
+    memberOneId?.profileId._id === profile._id ? memberTwoId : memberOneId;
 
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
       <ChatHeader
-        imageUrl={otherMember.profileId[0].imageUrl}
-        name={otherMember.profileId[0].name}
+        imageUrl={otherMember.profileId.imageUrl}
+        name={otherMember.profileId.name}
         serverId={params.serverId}
         type="conversation"
       />
-      <ChatMessages
-        member={member}
-        name={otherMember.profileId[0].name}
-        chatId={conversation._id}
-        type={"conversation"}
-        apiUrl={`${process.env.API_URL}api/v1/direct-messages`}
-        paramKey="conversationId"
-        paramValue={conversation._id}
-        socketUrl={`${process.env.API_URL}api/v1/messages/socket-direct`}
-        socketQuery={{
-          conversationId: conversation._id,
-        }}
-      />
-      <ChatInput
-        name={otherMember.profileId[0].name}
-        type="conversation"
-        apiUrl={`${process.env.API_URL}api/v1/messages/socket-direct`}
-        member={member}
-        conversation={conversation}
-      />
+      {searchParams?.video && (
+        <MediaRoom chatId={conversation._id} video={true} audio={true} />
+      )}
+      {!searchParams?.video && (
+        <>
+          <ChatMessages
+            member={member}
+            name={otherMember.profileId.name}
+            chatId={conversation._id}
+            type={"conversation"}
+            apiUrl={`${process.env.API_URL}api/v1/direct-messages`}
+            paramKey="conversationId"
+            paramValue={conversation._id}
+            socketUrl={`${process.env.API_URL}api/v1/direct-messages`}
+            socketQuery={{
+              conversationId: conversation._id,
+            }}
+          />
+          <ChatInput
+            name={otherMember.profileId.name}
+            type="conversation"
+            apiUrl={`${process.env.API_URL}api/v1/direct-messages`}
+            member={member}
+            conversation={conversation}
+          />
+        </>
+      )}
     </div>
   );
 }
